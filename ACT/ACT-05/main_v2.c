@@ -7,7 +7,7 @@
 #include <string.h>
 #include <getopt.h>
 #include <sys/types.h>
-#include "pokedex.h"
+//#include "pokedex.h"
 #include "pokemon.h"
 
 
@@ -28,24 +28,29 @@ Delete the Pokemon with position in the pokedex = position\n\
 #define ERR_SHOW_POKEMON "show pokemon blew up"
 #define DEFAULT_PROGNAME "pokemon_management_service"
 
-Pokemon list_pokemons[151];
+#define MAX_POKEMONS 151
+#define ELEMENTS(a) (sizeof(a) / sizeof(*a))
+
+Pokemon list_pokemons[MAX_POKEMONS];
 
 extern int errno;
 int add_pokemon(char *line){
-    char *name;
+    char name[50];
     int pokemon_id;
     double height, weight;
-    sscanf(line, "%d %s %lf %lf", &pokemon_id, &*name, &height, &weight);
+    sscanf(line, "%d %s %lf %lf ", &pokemon_id, name, &height, &weight);
     printf("%d %s %lf %lf\n", pokemon_id, name,height, weight);
     FILE *fs = fopen("pokemon.csv", "a");
-    fprintf(fs, "%d,%s,%lf,%lf\n", pokemon_id, name, height, weight); 
+    fprintf(fs, "%d,%s,%lf,%lf \n", pokemon_id, name, height, weight); 
     fclose(fs); 
+    return 0;
 };
 
 int show_pokemon(int position){
-    if(position < sizeof(list_pokemons)){
-        if(list_pokemons[position].pokemon_id != NULL){
-            printf("%s %s %s \n", Get_pokemon_name(list_pokemons[0]), Get_pokemon_name(list_pokemons[1]), Get_pokemon_name(list_pokemons[2]));
+
+    // sizeof no és pot utilitzar com ho feies.
+    if(position < ELEMENTS(list_pokemons)){
+        if(list_pokemons[position].pokemon_id > 0){
             printf("PokemonID: %d \n Name: %s \n Height: %lf \n Weight: %lf \n", list_pokemons[position].pokemon_id,list_pokemons[position].name,list_pokemons[position].height,list_pokemons[position].weight);            
         }
         return 0;
@@ -55,11 +60,11 @@ int show_pokemon(int position){
 }
 
 int init_pokedex(){
-    for (int i = 0; i < sizeof(list_pokemons); i++)
+    for (int i = 0; i < ELEMENTS(list_pokemons); i++)
     {
-        show_pokemon(i);        
+       show_pokemon(i);        
     }
-    
+    return EXIT_SUCCESS;
 }
 
 void pokemons_to_array(){
@@ -67,16 +72,16 @@ void pokemons_to_array(){
     char line[1024];
     int count = 0;
     while (fgets(line, sizeof(line), fs)){
-        char *name = NULL;
-        int pokemon_id = NULL;
+        char *name = "";
+        int pokemon_id= -1;
         double height = -1; 
         double weight = -1;
         char* token;
         token = strtok(line,",");
         while(token!=NULL){
-            if(pokemon_id == NULL){
+            if(pokemon_id == -1){
                 pokemon_id = atoi(token);
-            } else if (name == NULL){
+            } else if (strcmp(name,"")==0){
                 name = token;
             } else if (height == -1){
                 height = atof(token);
@@ -99,13 +104,15 @@ int main(int argc, char *argv[]){
     pokemons_to_array();
     int opt;
     opterr = 0;
+    char* line;
 
     WELCOME_MSG;
 
-    while((opt = getopt(argc, argv, OPTSTR)) !=EOF)
+    while( (opt = getopt(argc, argv, OPTSTR) ) !=EOF)
         switch (opt){
         case 'a':
-            if(add_pokemon(opt) != EXIT_SUCCESS){
+            sprintf(line,"%s %s %s %s \n",argv[2],argv[3],argv[4],argv[5]);
+            if(add_pokemon(line) != EXIT_SUCCESS){
                 perror(ERR_ADD_POKEMON);
                 exit(EXIT_FAILURE);
             }
