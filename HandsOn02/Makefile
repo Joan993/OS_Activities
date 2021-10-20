@@ -1,7 +1,7 @@
 EXEC     = $(shell basename $$(pwd))
 CC       = gcc
 
-CFLAGS   = -O3 -Wall -Wextra -g
+CFLAGS   = -Wall -Wextra
 LDLIBS = -lm
 LDFLAGS = 
 
