@@ -1,0 +1,7 @@
+Lo que hace es primero pasar por el primera condicion ya que es la del padre, sale por pantalla el manesage del padre y 
+el fflush vaciar el buffer, luego con el waitpid, el proceso padre se pausa para dar paso al proceso hijo a que se ejecute, saliendo por pantalla un saludo.
+
+Luego el proceso hijo se termina machacandolo con kill con sigstop y vuelve al proceso padre, en donde se hace un print y otro 
+kill para el padre donde esta vez al kill tiene sigcont, que hace que vuelve al proceso hijo terminado anteriormente.
+
+Luego ya terminado salido del if y terminando el programa

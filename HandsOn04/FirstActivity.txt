@@ -1,0 +1,4 @@
+La orden hace que utilice todos los ciclos de la CPU para un solo núcleo.
+En la primera ejecucion el estado era de (R - running or runnable (on run queue))
+Al parar el proceso el estado del proceso es de (T - stopped by job control signal)
+Y al volver a iniciarlo con bg el estado vuelve a ser de (R - running or runnable (on run queue))
