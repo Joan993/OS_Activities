@@ -5,9 +5,9 @@
 
 
 Pokemon new_pokemon(int pokemon_id, char *name, double height, double weight){
-    printf("test \n");
     char * name2 = strdup(name);
     Pokemon newP = {pokemon_id,name2,height,weight};
+    printf("%d %s %lf %lf \n", pokemon_id,name2,height,weight);
     return newP;
 };
 
