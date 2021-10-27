@@ -38,6 +38,7 @@ int main(){
             r_fill = (rand() % (1 - 0 + 1)) + 0;
             if( r_fill == 0){
                 strcpy(estat_fill,"apunyalat");
+                value = value + r_fill;
             } else {
                 strcpy(estat_fill,"decapitat");
                 value = value + 10;
@@ -56,9 +57,9 @@ int main(){
         if(return_value == 11){
             printf("En resum el meu fill Robb ha estat decapitat, en Ned decapitat i jo en Rickard amb pid = %d i m’han executat. \n",getppid());
         } else if(return_value == 10){
-            printf("En resum el meu fill Robb ha estat decapitat, en Ned apunyalat i jo en Rickard amb pid = %d i m’han executat. \n",getppid());
-        } else if(return_value == 1){
             printf("En resum el meu fill Robb ha estat apunyalat, en Ned decapitat i jo en Rickard amb pid = %d i m’han executat. \n",getppid());
+        } else if(return_value == 1){
+            printf("En resum el meu fill Robb ha estat decapitat, en Ned apunyalat i jo en Rickard amb pid = %d i m’han executat. \n",getppid());
         } else if(return_value == 0){
             printf("En resum el meu fill Robb ha estat apunyalat, en Ned apunyalat i jo en Rickard amb pid = %d i m’han executat. \n",getppid());
         }
