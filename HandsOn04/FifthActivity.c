@@ -38,7 +38,6 @@ int main(){
             r_fill = (rand() % (1 - 0 + 1)) + 0;
             if( r_fill == 0){
                 strcpy(estat_fill,"apunyalat");
-                value = value + r_fill;
             } else {
                 strcpy(estat_fill,"decapitat");
                 value = value + 10;
